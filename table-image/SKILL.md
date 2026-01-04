@@ -43,14 +43,25 @@ Then send with `MEDIA:/tmp/table.png`
 | `--font-size` | 14 | Font size in pixels |
 | `--padding` | 10 | Cell padding in pixels |
 
+## Emoji Support
+
+**Bundled** (work out of the box): ✅ ❌ 🔴 🟢 🟡 ⭕ ⚠️
+
+**Full emoji** (one-time download):
+```bash
+tablesnap emojis install
+```
+
+Unsupported emoji render as □ until full set is installed.
+
 ## Example Workflow
 
 ```bash
 # Create table image
-echo "| Model | Price | Rating |
-|-------|-------|--------|
-| Basic | $10   | ★★★    |
-| Pro   | $20   | ★★★★★  |" | tablesnap -o /tmp/table.png
+echo "| Task | Status |
+|------|--------|
+| Build | ✅ |
+| Deploy | 🚀 |" | tablesnap -o /tmp/table.png
 
 # Send in reply
 MEDIA:/tmp/table.png
@@ -61,7 +72,7 @@ MEDIA:/tmp/table.png
 - Dark theme by default (matches Telegram/Discord dark mode)
 - Auto-sizes to fit content
 - Output ~10-20KB (messaging-friendly)
-- macOS fonts required (cross-platform support planned)
+- Cross-platform (Inter font embedded)
 
 ## Links
 
