@@ -8,6 +8,8 @@ A collection of skills for AI assistants. Each skill is a self-contained module 
 skills/
 ├── accli/
 │   └── SKILL.md
+├── openai-tts/
+│   └── SKILL.md
 ├── table-image/
 │   └── SKILL.md
 └── ...
@@ -18,6 +20,7 @@ skills/
 | Skill | Description |
 |-------|-------------|
 | [accli](./accli/) | Apple Calendar CLI - list, create, update, delete calendar events |
+| [openai-tts](./openai-tts/) | Text-to-speech voice notes via OpenAI TTS API |
 | [table-image](./table-image/) | Convert markdown tables to PNG images |
 
 ## Usage
