@@ -6,9 +6,9 @@ A collection of skills for AI assistants. Each skill is a self-contained module 
 
 ```
 skills/
-├── table-image/
+├── accli/
 │   └── SKILL.md
-├── another-skill/
+├── table-image/
 │   └── SKILL.md
 └── ...
 ```
@@ -17,6 +17,7 @@ skills/
 
 | Skill | Description |
 |-------|-------------|
+| [accli](./accli/) | Apple Calendar CLI - list, create, update, delete calendar events |
 | [table-image](./table-image/) | Convert markdown tables to PNG images |
 
 ## Usage
