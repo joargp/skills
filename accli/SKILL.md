@@ -5,6 +5,14 @@ description: This skill should be used when interacting with Apple Calendar on m
 
 # Apple Calendar CLI (accli)
 
+## Installation
+
+```bash
+npm install -g @joargp/accli
+```
+
+**Requirements:** macOS only (uses JavaScript for Automation)
+
 ## Overview
 
 The accli tool provides command-line access to macOS Apple Calendar. It enables listing calendars, querying events, creating/updating/deleting events, and checking availability across calendars.
@@ -139,3 +147,63 @@ Options:
 - --json - Output JSON
 
 Shows busy time slots, excluding cancelled, declined, and transparent events.
+
+Examples:
+
+```bash
+# Check availability across calendars
+accli freebusy --calendar Work --calendar Personal --from 2025-01-15 --to 2025-01-16 --json
+
+# Check specific hours
+accli freebusy --calendar Work --from 2025-01-15T09:00 --to 2025-01-15T18:00 --json
+```
+
+### Configuration
+
+```bash
+# Set default calendar (interactive)
+accli config set-default
+
+# Set default by name
+accli config set-default --calendar Work
+
+# Show current config
+accli config show
+
+# Clear default
+accli config clear
+```
+
+When a default calendar is set, commands automatically use it if no calendar is specified.
+
+## Workflow Guidelines
+
+### Before Creating Events
+1. List calendars to get available calendar names/IDs
+2. Check free/busy to find available time slots
+3. Confirm event details with user before creating
+
+### Best Practices
+- Always use --json flag for programmatic parsing
+- Prefer --calendar-id over calendar names for reliability
+- When querying events, start with reasonable date ranges
+- Confirm with user before delete operations
+- Use ISO 8601 datetime format consistently
+
+### Common Patterns
+
+Find a free slot and schedule:
+
+```bash
+# 1. Check availability
+accli freebusy --calendar Work --from 2025-01-15T09:00 --to 2025-01-15T18:00 --json
+
+# 2. Create event in available slot
+accli create Work --summary "Meeting" --start 2025-01-15T14:00 --end 2025-01-15T15:00 --json
+```
+
+View today's schedule:
+
+```bash
+accli events Work --from $(date +%Y-%m-%d) --to $(date -v+1d +%Y-%m-%d) --json
+```
