@@ -1,43 +1,52 @@
 ---
 name: news-summary
-description: This skill should be used when the user asks for news updates, daily briefings, or what's happening in the world. Fetches news from NRK (Norwegian) and BBC (international) RSS feeds and can create voice summaries.
+description: This skill should be used when the user asks for news updates, daily briefings, or what's happening in the world. Fetches news from trusted international RSS feeds and can create voice summaries.
 ---
 
 # News Summary
 
 ## Overview
 
-Fetch and summarize news from trusted sources:
-- **NRK** (Norwegian) — state broadcaster, primary source
-- **BBC World** (International) — supplement for global news
+Fetch and summarize news from trusted international sources via RSS feeds.
 
 ## RSS Feeds
 
-### NRK (Norwegian)
-```bash
-# Top stories
-curl -s "https://www.nrk.no/toppsaker.rss"
-
-# By category
-curl -s "https://www.nrk.no/nyheter/siste.rss"      # Latest
-curl -s "https://www.nrk.no/sport/siste.rss"        # Sports
-curl -s "https://www.nrk.no/kultur/siste.rss"       # Culture
-```
-
-### BBC (International)
+### BBC (Primary)
 ```bash
 # World news
 curl -s "https://feeds.bbci.co.uk/news/world/rss.xml"
 
 # Top stories
 curl -s "https://feeds.bbci.co.uk/news/rss.xml"
+
+# Business
+curl -s "https://feeds.bbci.co.uk/news/business/rss.xml"
+
+# Technology
+curl -s "https://feeds.bbci.co.uk/news/technology/rss.xml"
+```
+
+### Reuters
+```bash
+# World news
+curl -s "https://www.reutersagency.com/feed/?best-regions=world&post_type=best"
+```
+
+### NPR (US perspective)
+```bash
+curl -s "https://feeds.npr.org/1001/rss.xml"
+```
+
+### Al Jazeera (Global South perspective)
+```bash
+curl -s "https://www.aljazeera.com/xml/rss/all.xml"
 ```
 
 ## Parse RSS
 
 Extract titles and descriptions:
 ```bash
-curl -s "https://www.nrk.no/toppsaker.rss" | \
+curl -s "https://feeds.bbci.co.uk/news/world/rss.xml" | \
   grep -E "<title>|<description>" | \
   sed 's/<[^>]*>//g' | \
   sed 's/^[ \t]*//' | \
@@ -47,10 +56,10 @@ curl -s "https://www.nrk.no/toppsaker.rss" | \
 ## Workflow
 
 ### Text summary
-1. Fetch NRK toppsaker
-2. Fetch BBC world headlines
-3. Summarize in Norwegian
-4. Group by category (Norge, Verden, Vær, Sport)
+1. Fetch BBC world headlines
+2. Optionally supplement with Reuters/NPR
+3. Summarize key stories
+4. Group by region or topic
 
 ### Voice summary
 1. Create text summary
@@ -73,18 +82,17 @@ curl -s https://api.openai.com/v1/audio/speech \
 ## Example Output Format
 
 ```
-📰 Nyhetsoppsummering [dato]
+📰 News Summary [date]
 
-🇳🇴 NORGE
+🌍 WORLD
 - [headline 1]
 - [headline 2]
 
-🌍 VERDEN
+💼 BUSINESS
 - [headline 1]
-- [headline 2]
 
-⛅ VÆR
-- [relevant weather news]
+💻 TECH
+- [headline 1]
 ```
 
 ## Best Practices
@@ -92,5 +100,5 @@ curl -s https://api.openai.com/v1/audio/speech \
 - Keep summaries concise (5-8 top stories)
 - Prioritize breaking news and major events
 - For voice: ~2 minutes max
-- Use Norwegian for delivery
-- Cite source if asked (NRK, BBC)
+- Balance perspectives (Western + Global South)
+- Cite source if asked
