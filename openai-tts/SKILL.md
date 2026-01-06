@@ -20,7 +20,7 @@ curl -s https://api.openai.com/v1/audio/speech \
   -H "Authorization: Bearer $OPENAI_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
-    "model": "tts-1",
+    "model": "gpt-4o-mini-tts",
     "input": "Your text here",
     "voice": "onyx"
   }' \
@@ -34,24 +34,30 @@ Then send with: `MEDIA:/tmp/voice.mp3`
 | Voice | Description |
 |-------|-------------|
 | `alloy` | Neutral, balanced |
+| `ash` | Clear, direct |
+| `coral` | Warm, approachable |
 | `echo` | Warm, conversational |
 | `fable` | British, storytelling |
 | `onyx` | Deep, authoritative |
 | `nova` | Friendly, upbeat |
+| `sage` | Calm, thoughtful |
 | `shimmer` | Soft, gentle |
 
 ## Models
 
-| Model | Quality | Speed | Cost |
-|-------|---------|-------|------|
-| `tts-1` | Standard | Fast | $0.015/1K chars |
-| `tts-1-hd` | High quality | Slower | $0.030/1K chars |
+| Model | Description | Cost |
+|-------|-------------|------|
+| `gpt-4o-mini-tts` | Latest, best quality | $0.60/1M input chars |
+| `tts-1` | Standard (legacy) | $15/1M chars |
+| `tts-1-hd` | High quality (legacy) | $30/1M chars |
+
+**Recommended:** Use `gpt-4o-mini-tts` — better quality and 25x cheaper than legacy models.
 
 ## Parameters
 
 ```json
 {
-  "model": "tts-1",           // or "tts-1-hd"
+  "model": "gpt-4o-mini-tts",
   "input": "Text to speak",   // Max 4096 characters
   "voice": "onyx",            // See voices above
   "response_format": "mp3",   // mp3, opus, aac, flac, wav, pcm
@@ -67,20 +73,20 @@ curl -s https://api.openai.com/v1/audio/speech \
   -H "Authorization: Bearer $OPENAI_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
-    "model": "tts-1",
+    "model": "gpt-4o-mini-tts",
     "input": "Hei! Dette er en stemmenote på norsk.",
     "voice": "nova"
   }' \
   --output /tmp/norwegian.mp3
 ```
 
-### High quality with slower speed
+### With slower speed
 ```bash
 curl -s https://api.openai.com/v1/audio/speech \
   -H "Authorization: Bearer $OPENAI_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
-    "model": "tts-1-hd",
+    "model": "gpt-4o-mini-tts",
     "input": "Important announcement...",
     "voice": "onyx",
     "speed": 0.9
@@ -94,7 +100,7 @@ curl -s https://api.openai.com/v1/audio/speech \
   -H "Authorization: Bearer $OPENAI_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
-    "model": "tts-1",
+    "model": "gpt-4o-mini-tts",
     "input": "Compact audio message",
     "voice": "alloy",
     "response_format": "opus"
@@ -113,5 +119,5 @@ curl -s https://api.openai.com/v1/audio/speech \
 - Use `onyx` or `echo` for professional/calm tone
 - Use `nova` for friendly/upbeat messages
 - Keep messages concise (under 1 minute ideal)
-- Use `tts-1` for speed, `tts-1-hd` for quality
 - Use `opus` format for smaller file sizes
+- Always use `gpt-4o-mini-tts` (best quality, lowest cost)
